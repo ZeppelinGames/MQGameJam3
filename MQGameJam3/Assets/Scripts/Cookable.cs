@@ -12,6 +12,8 @@ public class Cookable : MonoBehaviour
     private Rigidbody rig;
     public Rigidbody Rig { get => rig; }
 
+    private float cookForce = 100;
+
     private void Start()
     {
         rig = GetComponent<Rigidbody>();
@@ -23,6 +25,11 @@ public class Cookable : MonoBehaviour
         {
             GameObject cooked = Instantiate(cookedItem);
             cooked.transform.position = transform.position;
+
+            if(cooked.TryGetComponent(out Rigidbody rig))
+            {
+                rig.AddForce(Vector3.up * cookForce);
+            }
 
             this.gameObject.SetActive(false);
         }

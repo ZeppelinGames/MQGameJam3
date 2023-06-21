@@ -35,9 +35,10 @@ public class Pan : MonoBehaviour
             fillImage.color = cookingGradient.Evaluate(cookingLevel);
             cooking.SetCookLevel(cookingLevel);
 
-            if(cookingLevel >= 1)
+            if (cookingLevel >= 1)
             {
-                cooking = null;
+                panSlider.value = 0;
+                StoppedCooking();
             }
         }
 
@@ -47,6 +48,11 @@ public class Pan : MonoBehaviour
         for (int i = 0; i < cols.Length; i++)
         {
             Collider collision = cols[i];
+            if(!collision.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+
             collision.transform.TryGetComponent(out Cookable c);
             if (c == cooking)
             {
@@ -58,6 +64,7 @@ public class Pan : MonoBehaviour
             {
                 startCookTime = Time.time;
                 cooking = c;
+                cooking.transform.SetParent(transform);
             }
             else
             {
@@ -73,8 +80,14 @@ public class Pan : MonoBehaviour
 
         if (!stillInPan || cols.Length == 0)
         {
-            cooking = null;
+            StoppedCooking();
         }
+    }
+
+    void StoppedCooking()
+    {
+        cooking.transform.SetParent(null);
+        cooking = null;
     }
 
     private void OnDrawGizmos()

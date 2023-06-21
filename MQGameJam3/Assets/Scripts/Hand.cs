@@ -6,9 +6,13 @@ public class Hand : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private Transform hand;
+    [SerializeField] private Transform holdPoint;
+
+    [Header("Grabbing")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float handHeight = 0.25f;
     [SerializeField] private LayerMask grabLayer;
+    [SerializeField] private AnimatorPoseSetter poseSetter;
 
     private Pickup holding;
 
@@ -37,19 +41,25 @@ public class Hand : MonoBehaviour
             {
                 if (hitPickup.transform.gameObject.IsInLayerMask(grabLayer))
                 {
-
                     if (hitPickup.transform.TryGetComponent(out Pickup pick))
                     {
                         pick.Grab();
                         holding = pick;
                     }
                 }
+
+                if (hitPickup.transform.TryGetComponent(out GameObjectButton button))
+                {
+                    button.Click();
+                }
             }
+
+            poseSetter.SetPose(1);
         }
 
         if (holding != null)
         {
-            holding.Rig.MovePosition(Vector3.Slerp(holding.transform.position, hand.position, Time.deltaTime * moveSpeed));
+            holding.Rig.MovePosition(Vector3.Slerp(holding.transform.position, holdPoint.position - holding.pickupOffset, Time.deltaTime * moveSpeed));
             //holding.transform.position = hand.position;
 
             if (Input.GetMouseButtonUp(0))
@@ -58,6 +68,11 @@ public class Hand : MonoBehaviour
                 holding.Drop();
                 holding = null;
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            poseSetter.SetPose(0);
         }
     }
 }
