@@ -7,25 +7,33 @@ public class Egg : MonoBehaviour
 {
     [SerializeField] private GameObject wetEgg;
     [SerializeField] private GameObject eggHalf;
+    [SerializeField] private string panTag = "Pan";
     [SerializeField] private float breakMagnitude = 5f;
     [SerializeField] private float explosionForce = 100f;
+    [SerializeField] private bool hasCollided = false;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.relativeVelocity.magnitude > breakMagnitude)
+        if (hasCollided)
         {
+            return;
+        }
+
+        if (collision.transform.CompareTag(panTag) || collision.relativeVelocity.magnitude > breakMagnitude)
+        {
+            hasCollided = true;
             GameObject newWetEgg = Instantiate(wetEgg);
             newWetEgg.transform.position = transform.position;
 
             GameObject egghalf = Instantiate(eggHalf);
-            egghalf.transform.position = transform.position - (transform.forward * 0.1f);
+            egghalf.transform.position = transform.position - (transform.forward * 0.1f) + (Vector3.up * 0.1f);
             if (eggHalf.TryGetComponent(out Rigidbody eggRig))
             {
                eggRig.AddForce(Vector3.up * explosionForce);
             }
 
             GameObject egghalf2 = Instantiate(eggHalf);
-            egghalf2.transform.position = transform.position + (transform.forward * 0.1f);
+            egghalf2.transform.position = transform.position + (transform.forward * 0.1f) + (Vector3.up * 0.1f);
             egghalf2.transform.eulerAngles = new Vector3(0, 0, 180);
             if (eggHalf.TryGetComponent(out Rigidbody eggRig2))
             {

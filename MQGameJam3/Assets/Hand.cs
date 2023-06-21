@@ -6,11 +6,11 @@ public class Hand : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private Transform hand;
+    [SerializeField] private float moveSpeed;
     [SerializeField] private float handHeight = 0.25f;
-    [SerializeField] private float lookAheadDist = 0.1f;
     [SerializeField] private LayerMask grabLayer;
 
-    private Transform holding;
+    private Pickup holding;
 
     private Vector3 prevPos = Vector3.zero;
 
@@ -19,10 +19,7 @@ public class Hand : MonoBehaviour
     {
         Vector3 dir = (hand.position - prevPos).normalized;
 
-        Vector3 lookAhead = dir * lookAheadDist;
-        Vector3 screenPos = cam.WorldToScreenPoint(lookAhead);
-
-        Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition + screenPos);
+        Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(mouseRay, out RaycastHit hit))
         {
@@ -40,20 +37,27 @@ public class Hand : MonoBehaviour
             {
                 if (hitPickup.transform.gameObject.IsInLayerMask(grabLayer))
                 {
-                    holding = hitPickup.transform;
+
+                    if (hitPickup.transform.TryGetComponent(out Pickup pick))
+                    {
+                        pick.Grab();
+                        holding = pick;
+                    }
                 }
             }
         }
 
-        if(holding != null)
+        if (holding != null)
         {
-            holding.transform.position = hand.position;
-        }
+            holding.Rig.MovePosition(Vector3.Slerp(holding.transform.position, hand.position, Time.deltaTime * moveSpeed));
+            //holding.transform.position = hand.position;
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            // drop item
-            holding = null;
+            if (Input.GetMouseButtonUp(0))
+            {
+                // drop item
+                holding.Drop();
+                holding = null;
+            }
         }
     }
 }
