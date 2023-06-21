@@ -59,9 +59,6 @@ public class Hand : MonoBehaviour
 
         if (holding != null)
         {
-            holding.Rig.MovePosition(Vector3.Slerp(holding.transform.position, holdPoint.position - holding.pickupOffset, Time.deltaTime * moveSpeed));
-            //holding.transform.position = hand.position;
-
             if (Input.GetMouseButtonUp(0))
             {
                 // drop item
@@ -73,6 +70,26 @@ public class Hand : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             poseSetter.SetPose(0);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (holding != null)
+        {
+            Vector3 moveDirection = (holdPoint.position - (holding.transform.position + holding.pickupOffset)).normalized;
+            Vector3 targetPosition = holdPoint.position - holding.pickupOffset;
+            Vector3 force = moveDirection * moveSpeed;
+
+            if (Vector3.Distance(holding.transform.position, targetPosition) > 0.1f)
+            {
+                holding.Rig.AddForce(force);
+                holding.transform.position = Vector3.Lerp(holding.transform.position, targetPosition, Time.deltaTime * moveSpeed);
+            }
+            else
+            {
+                holding.transform.position = targetPosition;
+            }
         }
     }
 }

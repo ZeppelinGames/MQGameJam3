@@ -19,28 +19,34 @@ public class Egg : MonoBehaviour
             return;
         }
 
-        if (collision.transform.CompareTag(panTag) || collision.relativeVelocity.magnitude > breakMagnitude)
+        Debug.Log(collision.collider.tag);
+        if (collision.collider.CompareTag(panTag) || collision.relativeVelocity.magnitude > breakMagnitude)
         {
-            hasCollided = true;
-            GameObject newWetEgg = Instantiate(wetEgg);
-            newWetEgg.transform.position = transform.position;
-
-            GameObject egghalf = Instantiate(eggHalf);
-            egghalf.transform.position = transform.position - (transform.forward * 0.1f) + (Vector3.up * 0.1f);
-            if (eggHalf.TryGetComponent(out Rigidbody eggRig))
-            {
-               eggRig.AddForce(Vector3.up * explosionForce);
-            }
-
-            GameObject egghalf2 = Instantiate(eggHalf);
-            egghalf2.transform.position = transform.position + (transform.forward * 0.1f) + (Vector3.up * 0.1f);
-            egghalf2.transform.eulerAngles = new Vector3(0, 0, 180);
-            if (eggHalf.TryGetComponent(out Rigidbody eggRig2))
-            {
-                eggRig2.AddForce(Vector3.up * explosionForce);
-            }
-
-            this.gameObject.SetActive(false);
+            Break();
         }
+    }
+
+    private void Break()
+    {
+        hasCollided = true;
+        GameObject newWetEgg = Instantiate(wetEgg);
+        newWetEgg.transform.position = transform.position;
+
+        GameObject egghalf = Instantiate(eggHalf);
+        egghalf.transform.position = transform.position - (transform.forward * 0.1f) + (Vector3.up * 0.1f);
+        if (eggHalf.TryGetComponent(out Rigidbody eggRig))
+        {
+            eggRig.AddForce(Vector3.up * explosionForce);
+        }
+
+        GameObject egghalf2 = Instantiate(eggHalf);
+        egghalf2.transform.position = transform.position + (transform.forward * 0.1f) + (Vector3.up * 0.1f);
+        egghalf2.transform.eulerAngles = new Vector3(0, 0, 180);
+        if (eggHalf.TryGetComponent(out Rigidbody eggRig2))
+        {
+            eggRig2.AddForce(Vector3.up * explosionForce);
+        }
+
+        this.gameObject.SetActive(false);
     }
 }

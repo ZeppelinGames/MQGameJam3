@@ -925,9 +925,10 @@ GameObject:
   - component: {fileID: 5333324671184182088}
   - component: {fileID: 5333324671184182089}
   - component: {fileID: 5333324671184182087}
+  - component: {fileID: 1377265299}
   m_Layer: 6
   m_Name: Pan
-  m_TagString: Untagged
+  m_TagString: Pan
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -963,7 +964,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   launchForce: 25
   insidePanOffset: {x: 0, y: 0.1, z: 0}
-  insidePanRadius: 0.2
+  insidePanRadius: 0.5
+  panHeight: 0.1
   panSlider: {fileID: 0}
   fillImage: {fileID: 0}
   cookingGradient:
@@ -1009,7 +1011,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &5333324671184182089
 BoxCollider:
@@ -1037,3 +1039,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPoint: {x: -1, y: 0.2, z: 0}
+--- !u!114 &1377265299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7837029572002035309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdcf5073ad79e804fbc4cca076b03c27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  torqueForce: 1

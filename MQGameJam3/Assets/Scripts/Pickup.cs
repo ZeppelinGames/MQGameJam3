@@ -23,6 +23,7 @@ public class Pickup : MonoBehaviour
 
     public void Drop()
     {
+        rig.velocity = Vector3.zero;
         rig.useGravity = true;
     }
 

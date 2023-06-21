@@ -4,8 +4,25 @@ using UnityEngine;
 
 public class ObjectBin : MonoBehaviour
 {
+    [SerializeField] private string[] ignoreTags;
+
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(collision.gameObject);
+        if (!HasTag(collision.gameObject))
+        {
+            Destroy(collision.gameObject);
+        }
+    }
+
+        bool HasTag(GameObject g)
+    {
+        for (int i = 0; i < ignoreTags.Length; i++)
+        {
+            if (g.CompareTag(ignoreTags[i]))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
