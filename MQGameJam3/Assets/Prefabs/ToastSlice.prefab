@@ -143,4 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookedItem: {fileID: 5691658841760243772, guid: 73915d42a96b3f841873862142826dfb,
     type: 3}
-  cookTime: 10
+  cookTime: 5
