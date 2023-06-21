@@ -231,11 +231,12 @@ MonoBehaviour:
   cam: {fileID: 0}
   hand: {fileID: 3028134784140317102}
   holdPoint: {fileID: 410950111}
-  moveSpeed: 10
+  moveSpeed: 20
   handHeight: 0.5
   grabLayer:
     serializedVersion: 2
     m_Bits: 64
+  poseSetter: {fileID: 655346539}
 --- !u!114 &655346539
 MonoBehaviour:
   m_ObjectHideFlags: 0
