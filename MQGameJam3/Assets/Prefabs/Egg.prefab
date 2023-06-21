@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2703310679603310291}
   - component: {fileID: 2703310679603310292}
   - component: {fileID: 2703310679603310290}
+  - component: {fileID: 5270795449921164822}
   m_Layer: 6
   m_Name: Egg
   m_TagString: Untagged
@@ -131,5 +132,17 @@ MonoBehaviour:
   eggHalf: {fileID: 4881053502953400361, guid: 445ee7f433a20264493691f1d7f2ea60, type: 3}
   panTag: Pan
   breakMagnitude: 3
-  explosionForce: 250
+  explosionForce: 100
   hasCollided: 0
+--- !u!114 &5270795449921164822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2703310679603310293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83983c6e66355604c8668ae5a3db8867, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

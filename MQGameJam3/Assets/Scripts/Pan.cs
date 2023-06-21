@@ -17,6 +17,8 @@ public class Pan : MonoBehaviour
     private float startCookTime;
     private Cookable cooking;
 
+    private Collider[] cols = new Collider[0];
+
 
     private void Start()
     {
@@ -32,32 +34,33 @@ public class Pan : MonoBehaviour
             panSlider.value = cookingLevel;
             fillImage.color = cookingGradient.Evaluate(cookingLevel);
             cooking.SetCookLevel(cookingLevel);
+
+            if(cookingLevel >= 1)
+            {
+                cooking = null;
+            }
         }
 
-        Collider[] cols = Physics.OverlapSphere(transform.position + insidePanOffset, insidePanRadius);
+        cols = Physics.OverlapSphere(transform.position + insidePanOffset, insidePanRadius);
 
-        if (cols.Length == 0)
+        bool stillInPan = false;
+        for (int i = 0; i < cols.Length; i++)
         {
-            cooking = null;
-        }
+            Collider collision = cols[i];
+            collision.transform.TryGetComponent(out Cookable c);
+            if (c == cooking)
+            {
+                stillInPan = true;
+                continue;
+            }
 
-        foreach (Collider collision in cols)
-        {
-            if (cooking == null && collision.transform.TryGetComponent(out Cookable c))
+            if (cooking == null && c != null)
             {
                 startCookTime = Time.time;
                 cooking = c;
             }
             else
             {
-                if (collision.transform.TryGetComponent(out Cookable c2))
-                {
-                    if (c2 == cooking)
-                    {
-                        continue;
-                    }
-                }
-
                 if (collision.transform.TryGetComponent(out Rigidbody rig))
                 {
                     Debug.Log(rig.transform.name);
@@ -66,6 +69,11 @@ public class Pan : MonoBehaviour
                     rig.AddForce(launchDir);
                 }
             }
+        }
+
+        if (!stillInPan || cols.Length == 0)
+        {
+            cooking = null;
         }
     }
 
