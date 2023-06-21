@@ -507,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 2517274498436609884, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
       propertyPath: m_Name
-      value: EggSpawner (1)
+      value: BaconSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 2517274498436609954, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
@@ -564,6 +564,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2517274498436609955, guid: 8f171aa61da3df04d84200dd9dd22caf,
+        type: 3}
+      propertyPath: spawn
+      value: 
+      objectReference: {fileID: 248993583638564983, guid: 642122e01c84b354fa9ae4919a901410,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f171aa61da3df04d84200dd9dd22caf, type: 3}
 --- !u!4 &438812117 stripped
@@ -899,7 +905,7 @@ PrefabInstance:
     - target: {fileID: 2517274498436609884, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
       propertyPath: m_Name
-      value: EggSpawner (3)
+      value: TomatoSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 2517274498436609954, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
@@ -956,6 +962,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2517274498436609955, guid: 8f171aa61da3df04d84200dd9dd22caf,
+        type: 3}
+      propertyPath: spawn
+      value: 
+      objectReference: {fileID: 7746777274979649700, guid: ede8b4bad0738ff4aa0e6efb0014d6be,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f171aa61da3df04d84200dd9dd22caf, type: 3}
 --- !u!4 &1557986628 stripped
@@ -988,7 +1000,7 @@ PrefabInstance:
     - target: {fileID: 2517274498436609884, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
       propertyPath: m_Name
-      value: EggSpawner (2)
+      value: BreadSpawner
       objectReference: {fileID: 0}
     - target: {fileID: 2517274498436609954, guid: 8f171aa61da3df04d84200dd9dd22caf,
         type: 3}
@@ -1045,6 +1057,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2517274498436609955, guid: 8f171aa61da3df04d84200dd9dd22caf,
+        type: 3}
+      propertyPath: spawn
+      value: 
+      objectReference: {fileID: 3315930463432762421, guid: 1dc58edef51d12142ae880d7e88cc7a0,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f171aa61da3df04d84200dd9dd22caf, type: 3}
 --- !u!4 &2070407992 stripped

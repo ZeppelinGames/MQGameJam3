@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 503690735}
   - component: {fileID: 503690734}
   - component: {fileID: 503690733}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (5)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1211454416}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Colliders
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 1291830394}
   - component: {fileID: 1291830393}
   - component: {fileID: 1291830392}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (6)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 1576062025}
   - component: {fileID: 1576062024}
   - component: {fileID: 1576062023}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 1616310391}
   - component: {fileID: 1616310390}
   - component: {fileID: 1616310389}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 1908458799}
   - component: {fileID: 1908458798}
   - component: {fileID: 1908458797}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 1918152501}
   - component: {fileID: 1918152500}
   - component: {fileID: 1918152499}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (7)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 1919029728}
   - component: {fileID: 1919029727}
   - component: {fileID: 1919029726}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (4)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 2010698150}
   - component: {fileID: 2010698149}
   - component: {fileID: 2010698148}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Pan
   m_Icon: {fileID: 0}
@@ -964,7 +964,7 @@ MonoBehaviour:
   launchForce: 25
   insidePanOffset: {x: 0, y: 0.1, z: 0}
   insidePanRadius: 0.5
-  panHeight: 0.1
+  panHeight: 0.15
   panSlider: {fileID: 0}
   fillImage: {fileID: 0}
   cookingGradient:

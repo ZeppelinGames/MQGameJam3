@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Pan : MonoBehaviour
 {
     [SerializeField] private float launchForce = 500;
@@ -15,8 +16,14 @@ public class Pan : MonoBehaviour
     [SerializeField] private Image fillImage;
     [SerializeField] private Gradient cookingGradient;
 
-    private float startCookTime;
-    private Cookable cooking;
+    private Rigidbody rig;
+
+    //private float startCookTime;
+    //private Cookable cooking;
+
+    private List<Cookable> cooking = new List<Cookable>();
+    private List<float> startCookTime = new List<float>();
+    private bool[] stillInPan;
 
     private Collider[] cols = new Collider[0];
 
@@ -25,6 +32,7 @@ public class Pan : MonoBehaviour
     private void Start()
     {
         panSlider.value = 0;
+        rig = GetComponent<Rigidbody>();
     }
 
     public void SetPanState(bool isOn)
@@ -37,27 +45,47 @@ public class Pan : MonoBehaviour
     {
         if (!panOn)
         {
-            startCookTime = Time.time;
-            return;
+            for (int i = 0; i < cooking.Count; i++)
+            {
+                startCookTime[i] = Time.time;
+            }
         }
 
-        if (cooking != null)
+        if (cooking.Count > 0)
         {
-            float cookingLevel = Mathf.Clamp01((Time.time - startCookTime) / cooking.CookTime);
-            panSlider.value = cookingLevel;
-            fillImage.color = cookingGradient.Evaluate(cookingLevel);
-            cooking.SetCookLevel(cookingLevel);
+            float earliestStart = 10000;
+            float latestEnd = 0;
 
-            if (cookingLevel >= 1)
+            for (int i = 0; i < cooking.Count; i++)
             {
-                panSlider.value = 0;
-                StoppedCooking();
+                float cookingLevel = Mathf.Clamp01((Time.time - startCookTime[i]) / cooking[i].CookTime);
+                cooking[i].SetCookLevel(cookingLevel);
+
+                if (startCookTime[i] < earliestStart)
+                {
+                    earliestStart = startCookTime[i];
+                }
+
+                float endTime = startCookTime[i] + cooking[i].CookTime;
+                if (endTime > latestEnd)
+                {
+                    latestEnd = endTime;
+                }
+
+                if (cookingLevel >= 1)
+                {
+                    StoppedCooking(cooking[i]);
+                }
             }
+
+            float allCookLevel = Mathf.Clamp01((Time.time - earliestStart) / (latestEnd - earliestStart));
+            panSlider.value = allCookLevel;
+            fillImage.color = cookingGradient.Evaluate(allCookLevel);
         }
 
         cols = Physics.OverlapBox(transform.position + insidePanOffset, new Vector3(insidePanRadius, panHeight, insidePanRadius));
 
-        bool stillInPan = false;
+        stillInPan = new bool[cooking.Count + cols.Length];
         for (int i = 0; i < cols.Length; i++)
         {
             Collider collision = cols[i];
@@ -66,44 +94,44 @@ public class Pan : MonoBehaviour
                 continue;
             }
 
-            collision.transform.TryGetComponent(out Cookable c);
-            if (c == cooking)
+            if (collision.TryGetComponent(out Cookable c))
             {
-                stillInPan = true;
-                continue;
-            }
-
-            if (cooking == null && c != null)
-            {
-                startCookTime = Time.time;
-                cooking = c;
-                cooking.transform.SetParent(transform);
-            }
-            else
-            {
-                if (collision.transform.TryGetComponent(out Rigidbody rig))
+                if (!cooking.Contains(c))
                 {
-                    Debug.Log(rig.transform.name);
-                    Vector2 rnd = Random.insideUnitCircle;
-                    Vector3 launchDir = new Vector3(rnd.x, 5, rnd.y) * launchForce;
-                    rig.AddForce(launchDir);
+                    startCookTime.Add(Time.time);
+                    cooking.Add(c);
+                    stillInPan[cooking.IndexOf(c)] = true;
+
+                    c.transform.SetParent(transform);
+                }
+
+                if (cooking.Contains(c))
+                {
+                    stillInPan[cooking.IndexOf(c)] = true;
+                    continue;
                 }
             }
         }
 
-        if (!stillInPan || cols.Length == 0)
+        for (int i = 0; i < cooking.Count; i++)
         {
-            StoppedCooking();
+            if (!stillInPan[i])
+            {
+                StoppedCooking(cooking[i]);
+            }
         }
-    }
 
-    void StoppedCooking()
-    {
-        if (cooking != null)
+        if (cooking.Count == 0)
         {
-            cooking.transform.SetParent(null);
-            cooking = null;
+            panSlider.value = 0;
         }
+    }   
+
+    void StoppedCooking(Cookable c)
+    {
+        c.transform.SetParent(null);
+        startCookTime.RemoveAt(cooking.IndexOf(c));
+        cooking.Remove(c);
     }
 
     private void OnDrawGizmos()
