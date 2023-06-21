@@ -37,6 +37,7 @@ public class Pan : MonoBehaviour
     {
         if (!panOn)
         {
+            startCookTime = Time.time;
             return;
         }
 
