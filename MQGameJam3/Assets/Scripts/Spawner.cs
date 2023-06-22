@@ -10,6 +10,11 @@ public class Spawner : MonoBehaviour
     private bool checkSpawn = true;
     private float lastSpawnCheck;
 
+    private void Start()
+    {
+        Spawn();
+    }
+
     void Update()
     {
         if (!Physics.Raycast(spawnPoint.position, Vector3.up, 3))

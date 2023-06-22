@@ -8,6 +8,10 @@ public class Pickup : MonoBehaviour
     [SerializeField] private Vector3 pickupPoint;
     public Vector3 pickupOffset { get => pickupPoint; }
 
+
+    public bool IsPickedUp { get => isPickedUp; }
+    private bool isPickedUp;
+
     public Rigidbody Rig { get => rig; }
     private Rigidbody rig;
 
@@ -19,12 +23,15 @@ public class Pickup : MonoBehaviour
     public void Grab()
     {
         rig.useGravity = false;
+        isPickedUp = true;
     }
 
     public void Drop()
     {
         rig.velocity = Vector3.zero;
         rig.useGravity = true;
+
+        isPickedUp = false;
     }
 
     private void OnDrawGizmos()

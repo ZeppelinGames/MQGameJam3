@@ -16,8 +16,7 @@ public class Pan : MonoBehaviour
     [SerializeField] private Image fillImage;
     [SerializeField] private Gradient cookingGradient;
 
-    private Rigidbody rig;
-
+    private Collider[] prevItems;
     //private float startCookTime;
     //private Cookable cooking;
 
@@ -32,7 +31,6 @@ public class Pan : MonoBehaviour
     private void Start()
     {
         panSlider.value = 0;
-        rig = GetComponent<Rigidbody>();
     }
 
     public void SetPanState(bool isOn)
@@ -89,6 +87,12 @@ public class Pan : MonoBehaviour
         for (int i = 0; i < cols.Length; i++)
         {
             Collider collision = cols[i];
+            if (collision.gameObject.isStatic)
+            {
+                continue;
+            }
+            collision.transform.SetParent(transform);
+
             if (!collision.gameObject.activeInHierarchy)
             {
                 continue;
@@ -101,8 +105,6 @@ public class Pan : MonoBehaviour
                     startCookTime.Add(Time.time);
                     cooking.Add(c);
                     stillInPan[cooking.IndexOf(c)] = true;
-
-                    c.transform.SetParent(transform);
                 }
 
                 if (cooking.Contains(c))
@@ -125,7 +127,29 @@ public class Pan : MonoBehaviour
         {
             panSlider.value = 0;
         }
-    }   
+
+        if (prevItems != null)
+        {
+            for (int i = 0; i < prevItems.Length; i++)
+            {
+                bool hasItem = false;
+                for (int j = 0; j < cols.Length; j++)
+                {
+                    if (cols[j] == prevItems[i])
+                    {
+                        hasItem = true;
+                    }
+                }
+
+                if (!hasItem)
+                {
+                    prevItems[i].transform.SetParent(null);
+                }
+            }
+        }
+
+        prevItems = cols;
+    }
 
     void StoppedCooking(Cookable c)
     {

@@ -6,7 +6,12 @@ public class Hand : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private Transform hand;
+    [SerializeField] private Transform handTarget;
     [SerializeField] private Transform holdPoint;
+    [SerializeField] private float heightOffset = 0f;
+    [SerializeField] private float lerpSpeed = 5f;
+
+    private Vector3 handTargetPos = Vector3.zero;
 
     [Header("Grabbing")]
     [SerializeField] private float moveSpeed;
@@ -15,37 +20,33 @@ public class Hand : MonoBehaviour
     [SerializeField] private AnimatorPoseSetter poseSetter;
 
     private Pickup holding;
-
-    private Vector3 prevPos = Vector3.zero;
+    private bool grabbing = false;
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 dir = (hand.position - prevPos).normalized;
-
         Ray mouseRay = cam.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(mouseRay, out RaycastHit hit))
         {
             Vector3 handPos = hit.point + (Vector3.up * handHeight);
-            hand.position = handPos;
+            handTarget.position = hit.point + new Vector3(0, 0.1f, 0);
+
+            if (!grabbing)
+            {
+                handTargetPos = handPos;
+            }
         }
-
-        prevPos = hand.position;
-
 
         if (Input.GetMouseButtonDown(0))
         {
             // raycast down
-            if (Physics.Raycast(hand.position, Vector3.down, out RaycastHit hitPickup))
+            if (Physics.Raycast(hand.position, Vector3.down, out RaycastHit hitPickup, 10, grabLayer))
             {
-                if (hitPickup.transform.gameObject.IsInLayerMask(grabLayer))
+                if (hitPickup.transform.TryGetComponent(out Pickup pick))
                 {
-                    if (hitPickup.transform.TryGetComponent(out Pickup pick))
-                    {
-                        pick.Grab();
-                        holding = pick;
-                    }
+                    pick.Grab();
+                    holding = pick;
                 }
 
                 if (hitPickup.transform.TryGetComponent(out GameObjectButton button))
@@ -54,6 +55,8 @@ public class Hand : MonoBehaviour
                 }
             }
 
+            handTargetPos = hit.point + new Vector3(0, heightOffset, 0);
+            grabbing = true;
             poseSetter.SetPose(1);
         }
 
@@ -70,6 +73,12 @@ public class Hand : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             poseSetter.SetPose(0);
+        }
+
+        hand.position = Vector3.Lerp(hand.position, handTargetPos, Time.deltaTime * lerpSpeed);
+        if (Vector3.Distance(hand.position, handTargetPos) < 0.05f)
+        {
+            grabbing = false;
         }
     }
 
