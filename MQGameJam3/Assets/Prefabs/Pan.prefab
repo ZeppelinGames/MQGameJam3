@@ -1220,3 +1220,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPoint: {x: -1, y: 0.2, z: 0}
+  setPose: 3

@@ -30,7 +30,7 @@ public class Cuttable : MonoBehaviour
         {
             GameObject newCut = Instantiate(cutObject);
             newCut.transform.position = transform.position + (transform.forward * 0.5f);
-            newCut.transform.eulerAngles = new Vector3(60, newCut.transform.eulerAngles.y, newCut.transform.eulerAngles.z);
+            newCut.transform.eulerAngles = new Vector3(-60, newCut.transform.eulerAngles.y, newCut.transform.eulerAngles.z);
 
             cutAmount -= (1 / maxCuts);
             mr.material.SetFloat("_CutAmount", cutAmount);

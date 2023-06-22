@@ -11,6 +11,7 @@ public class Knife : MonoBehaviour
     [SerializeField] private float rotateSpeed = 3f;
 
     [Header("Cutting")]
+    [SerializeField] private ChoppingBoard board;
     [SerializeField] private Vector3 cutPosition;
     [SerializeField] private float cutSpeed = 4f;
     [SerializeField] private float knifeSpeed = 10f;
@@ -45,15 +46,27 @@ public class Knife : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position + cutPosition, Vector3.down, out RaycastHit hit))
                 {
-                    if (hit.transform.TryGetComponent(out Cuttable c))
+                    bool onBoard = false;
+                    for (int i = 0; i < board.ChoppingItems.Length; i++)
                     {
-                        c.Cut();
-                        lastCut = Time.time;
-
-                        if (!cutting)
+                        if (hit.transform == board.ChoppingItems[i].transform)
                         {
-                            targetPos = hit.point - cutPosition;
-                            cutting = true;
+                            onBoard = true;
+                        }
+                    }
+
+                    if (onBoard)
+                    {
+                        if (hit.transform.TryGetComponent(out Cuttable c))
+                        {
+                            c.Cut();
+                            lastCut = Time.time;
+
+                            if (!cutting)
+                            {
+                                targetPos = hit.point - cutPosition;
+                                cutting = true;
+                            }
                         }
                     }
                 }

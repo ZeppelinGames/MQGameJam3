@@ -46,12 +46,14 @@ public class Hand : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             // raycast down
+            int setPose = 1;
             if (Physics.Raycast(hand.position, Vector3.down, out RaycastHit hitPickup, 10, grabLayer))
             {
                 if (hitPickup.transform.TryGetComponent(out Pickup pick))
                 {
                     pick.Grab();
                     holding = pick;
+                    setPose = pick.SetPose;
                 }
 
                 if (hitPickup.transform.TryGetComponent(out GameObjectButton button))
@@ -62,7 +64,7 @@ public class Hand : MonoBehaviour
 
             handTargetPos = hit.point + new Vector3(0, heightOffset, 0);
             grabbing = true;
-            poseSetter.SetPose(1);
+            poseSetter.SetPose(setPose);
         }
 
         if (holding != null)

@@ -6,8 +6,10 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
     [SerializeField] private Vector3 pickupPoint;
-    public Vector3 pickupOffset { get => pickupPoint; }
+    [SerializeField] private int setPose = 1;
+    public int SetPose { get => setPose; }
 
+    public Vector3 pickupOffset { get => pickupPoint; }
 
     public bool IsPickedUp { get => isPickedUp; }
     private bool isPickedUp;
