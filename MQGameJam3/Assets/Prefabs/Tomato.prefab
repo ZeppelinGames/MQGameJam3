@@ -141,3 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 452fe90d9a2f85542b1a38419e7ca2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxCuts: 4
+  cutObject: {fileID: 9219035007203873623, guid: bcdb757d1e5b9fb43825120f5751da39,
+    type: 3}

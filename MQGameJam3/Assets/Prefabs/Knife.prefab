@@ -223,8 +223,9 @@ MonoBehaviour:
   pickUpRotation: {x: 0, y: -90, z: 0}
   droppedRotation: {x: 0, y: -90, z: -90}
   rotateSpeed: 3
-  cutPosition: {x: 0, y: 0, z: 0}
-  cutSpeed: 4
+  cutPosition: {x: -0.1, y: -0.15, z: 0}
+  cutSpeed: 2
+  knifeSpeed: 10
   knife: {fileID: 3711827888880363142}
 --- !u!1 &6067913165974499806
 GameObject:

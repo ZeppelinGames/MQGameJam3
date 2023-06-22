@@ -1606,20 +1606,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3644061586704481836, guid: 8c39e2bc9b94384468c02791406693d4,
+    - target: {fileID: 3644061586704481839, guid: 8c39e2bc9b94384468c02791406693d4,
         type: 3}
-      propertyPath: cutPosition.x
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3644061586704481836, guid: 8c39e2bc9b94384468c02791406693d4,
-        type: 3}
-      propertyPath: cutPosition.y
-      value: -0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3644061586704481836, guid: 8c39e2bc9b94384468c02791406693d4,
-        type: 3}
-      propertyPath: cutPosition.z
-      value: 0
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 3644061586704481840, guid: 8c39e2bc9b94384468c02791406693d4,
         type: 3}

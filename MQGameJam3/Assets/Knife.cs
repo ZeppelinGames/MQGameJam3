@@ -13,6 +13,7 @@ public class Knife : MonoBehaviour
     [Header("Cutting")]
     [SerializeField] private Vector3 cutPosition;
     [SerializeField] private float cutSpeed = 4f;
+    [SerializeField] private float knifeSpeed = 10f;
     [SerializeField] private Transform knife;
 
     private Vector3 targetPos;
@@ -33,6 +34,11 @@ public class Knife : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!cutting)
+        {
+            targetPos = transform.position;
+        }
+
         if (pickup.IsPickedUp)
         {
             if (Time.time - lastCut > (1 / cutSpeed))
@@ -46,21 +52,21 @@ public class Knife : MonoBehaviour
 
                         if (!cutting)
                         {
-                            targetPos = hit.point - new Vector3(0, 0.1f, 0);
+                            targetPos = hit.point - cutPosition;
                             cutting = true;
                         }
                     }
                 }
             }
 
-            knife.position = Vector3.Lerp(knife.position, targetPos, Time.deltaTime * cutSpeed);
 
             if (Vector3.Distance(knife.position, targetPos) < 0.1f)
             {
-                targetPos = transform.position;
+                //targetPos = transform.position;
                 cutting = false;
             }
         }
+        knife.position = Vector3.Lerp(knife.position, targetPos, Time.deltaTime * knifeSpeed);
 
         targetRotation = pickup.IsPickedUp ? pickUpRotation : droppedRotation;
         knife.rotation = Quaternion.Lerp(knife.rotation, Quaternion.Euler(targetRotation), Time.deltaTime * rotateSpeed);

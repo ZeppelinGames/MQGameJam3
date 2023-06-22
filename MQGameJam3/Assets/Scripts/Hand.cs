@@ -22,6 +22,11 @@ public class Hand : MonoBehaviour
     private Pickup holding;
     private bool grabbing = false;
 
+    private void Start()
+    {
+        Cursor.visible = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
