@@ -112,6 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ignoreTags:
   - Pan
+  - Plate
+  - Knife
 --- !u!1 &5275383705774615675
 GameObject:
   m_ObjectHideFlags: 0

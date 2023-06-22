@@ -8,7 +8,7 @@ public class ObjectBin : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!HasTag(collision.gameObject) && collision.transform.parent == null)
+        if (!HasTag(collision.gameObject) && collision.transform.TryGetComponent(out Pickup _))
         {
             Destroy(collision.gameObject);
         }

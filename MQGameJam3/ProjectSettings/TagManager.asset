@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pan
+  - Plate
+  - Knife
   layers:
   - Default
   - TransparentFX

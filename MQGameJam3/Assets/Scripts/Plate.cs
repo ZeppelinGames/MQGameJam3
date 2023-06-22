@@ -19,9 +19,11 @@ public class Plate : MonoBehaviour
         List<Pickup> prevPicks = new List<Pickup>();
         for (int i = 0; i < cols.Length; i++)
         {
-            if (cols[i].transform != this.transform && !cols[i].gameObject.isStatic && cols[i].TryGetComponent(out Pickup p) && !p.CompareTag("Pan"))
+            if (cols[i].transform != this.transform &&
+                cols[i].TryGetComponent(out Pickup p) &&
+                !p.IsPickedUp)
             {
-                cols[i].transform.SetParent(transform);
+                p.transform.SetParent(transform);
                 prevPicks.Add(p);
             }
         }
