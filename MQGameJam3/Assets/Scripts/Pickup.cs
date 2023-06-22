@@ -7,6 +7,11 @@ public class Pickup : MonoBehaviour
 {
     [SerializeField] private Vector3 pickupPoint;
     [SerializeField] private int setPose = 1;
+    [SerializeField] private string itemName;
+
+
+    public string ItemName { get => itemName; }
+
     public int SetPose { get => setPose; }
 
     public Vector3 pickupOffset { get => pickupPoint; }

@@ -129,6 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPoint: {x: 0, y: 0, z: 0}
+  setPose: 1
+  itemName: toast
 --- !u!114 &1761753886482949279
 MonoBehaviour:
   m_ObjectHideFlags: 0

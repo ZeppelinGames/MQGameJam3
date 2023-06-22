@@ -158,7 +158,7 @@ public class Pan : MonoBehaviour
         cooking.Remove(c);
     }
 
-    private void OnDrawGizmos()
+        private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position + insidePanOffset, new Vector3(insidePanRadius, panHeight, insidePanRadius));

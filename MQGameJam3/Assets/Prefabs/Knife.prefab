@@ -209,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPoint: {x: -0.375, y: 0, z: 0.06}
   setPose: 2
+  itemName: knife
 --- !u!114 &3644061586704481836
 MonoBehaviour:
   m_ObjectHideFlags: 0
