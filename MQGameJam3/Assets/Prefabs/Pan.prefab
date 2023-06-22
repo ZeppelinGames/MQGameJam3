@@ -1144,9 +1144,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchForce: 25
-  insidePanOffset: {x: 0, y: 0.1, z: 0}
+  insidePanOffset: {x: 0, y: 0.17, z: 0}
   insidePanRadius: 0.5
-  panHeight: 0.15
+  panHeight: 0.1
   panSlider: {fileID: 0}
   fillImage: {fileID: 0}
   cookingGradient:

@@ -1299,6 +1299,11 @@ PrefabInstance:
       propertyPath: panSlider
       value: 
       objectReference: {fileID: 2792652159058665764}
+    - target: {fileID: 5333324671184182087, guid: 3e5f1164e60201f4ead21531089593fc,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7460609101112405207, guid: 3e5f1164e60201f4ead21531089593fc,
         type: 3}
       propertyPath: m_RootOrder

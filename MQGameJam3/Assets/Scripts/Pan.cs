@@ -16,7 +16,7 @@ public class Pan : MonoBehaviour
     [SerializeField] private Image fillImage;
     [SerializeField] private Gradient cookingGradient;
 
-    private Collider[] prevItems;
+    private Pickup[] prevItems;
     //private float startCookTime;
     //private Cookable cooking;
 
@@ -82,35 +82,29 @@ public class Pan : MonoBehaviour
         }
 
         cols = Physics.OverlapBox(transform.position + insidePanOffset, new Vector3(insidePanRadius, panHeight, insidePanRadius));
+        List<Pickup> prevPicks = new List<Pickup>();
 
         stillInPan = new bool[cooking.Count + cols.Length];
         for (int i = 0; i < cols.Length; i++)
         {
-            Collider collision = cols[i];
-            if (collision.gameObject.isStatic)
+            if (cols[i].gameObject.TryGetComponent(out Pickup p))
             {
-                continue;
-            }
-            collision.transform.SetParent(transform);
+                prevPicks.Add(p);
+                p.transform.SetParent(transform);
 
-            if (!collision.gameObject.activeInHierarchy)
-            {
-                continue;
-            }
-
-            if (collision.TryGetComponent(out Cookable c))
-            {
-                if (!cooking.Contains(c))
+                if (cols[i].TryGetComponent(out Cookable c))
                 {
-                    startCookTime.Add(Time.time);
-                    cooking.Add(c);
-                    stillInPan[cooking.IndexOf(c)] = true;
-                }
+                    if (!cooking.Contains(c))
+                    {
+                        startCookTime.Add(Time.time);
+                        cooking.Add(c);
+                        stillInPan[cooking.IndexOf(c)] = true;
+                    }
 
-                if (cooking.Contains(c))
-                {
-                    stillInPan[cooking.IndexOf(c)] = true;
-                    continue;
+                    if (cooking.Contains(c))
+                    {
+                        stillInPan[cooking.IndexOf(c)] = true;
+                    }
                 }
             }
         }
@@ -135,7 +129,7 @@ public class Pan : MonoBehaviour
                 bool hasItem = false;
                 for (int j = 0; j < cols.Length; j++)
                 {
-                    if (cols[j] == prevItems[i])
+                    if (cols[j].transform == prevItems[i].transform)
                     {
                         hasItem = true;
                     }
@@ -148,7 +142,7 @@ public class Pan : MonoBehaviour
             }
         }
 
-        prevItems = cols;
+        prevItems = prevPicks.ToArray();
     }
 
     void StoppedCooking(Cookable c)
@@ -158,7 +152,7 @@ public class Pan : MonoBehaviour
         cooking.Remove(c);
     }
 
-        private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position + insidePanOffset, new Vector3(insidePanRadius, panHeight, insidePanRadius));

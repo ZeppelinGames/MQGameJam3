@@ -60,6 +60,7 @@ public class PlatingStation : MonoBehaviour
     {
         cols = Physics.OverlapBox(transform.position + offset, size);
 
+        bool hasPlate = false;
         for (int i = 0; i < cols.Length; i++)
         {
             if (cols[i].TryGetComponent(out Plate p))
@@ -69,13 +70,23 @@ public class PlatingStation : MonoBehaviour
                     hasGenedName = false;
                     currPlate = p;
                     plateTime = Time.time;
+                    hasPlate = true;
+                }
+                else
+                {
+                    hasPlate = true;
                 }
             }
+        }
+        if(!hasPlate)
+        {
+            currPlate = null;
+            hasGenedName = false;
         }
 
         if (currPlate != null && !hasGenedName)
         {
-            if (Time.time - plateTime > 3)
+            if (Time.time - plateTime > 1)
             {
                 nameText.text = namingFuncs[UnityEngine.Random.Range(0, namingFuncs.Length)](currPlate.PlatedItems);
                 hasGenedName = true;

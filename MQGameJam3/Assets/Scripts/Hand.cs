@@ -35,7 +35,7 @@ public class Hand : MonoBehaviour
         if (Physics.Raycast(mouseRay, out RaycastHit hit))
         {
             Vector3 handPos = hit.point + (Vector3.up * handHeight);
-            handTarget.position = hit.point + new Vector3(0, 0.1f, 0);
+            handTarget.position = hit.point + new Vector3(-0.1f, 0.05f, -0.1f);
 
             if (!grabbing)
             {
