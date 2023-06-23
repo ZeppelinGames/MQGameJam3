@@ -54,7 +54,7 @@ public class PlatingStation : MonoBehaviour
             {
                 return "Thats a plate.";
             }
-            return $"The too many {most}s {descs[Random.Range(0, descs.Length)]}";
+            return $"The {descs[Random.Range(0, descs.Length)]} {most}";
         },
      };
 
@@ -129,25 +129,13 @@ public class PlatingStation : MonoBehaviour
             if (!hasGenedName)
             {
                 string newName = namingFuncs[Random.Range(0, namingFuncs.Length)](currPlate.PlatedItems);
-                if (currPlate.PlatedItems != null && currPlate.PlatedItems.Length == 1)
-                {
-                    switch (currPlate.PlatedItems[0].ItemName)
-                    {
-                        case "knife":
-                            newName = "Uhhhh. That's a knife";
-                            break;
-                        case "pan":
-                            newName = "You need to cook with that";
-                            break;
-                        case "egg":
-                            string[] eggNames =
-                            {
-                                "egg",
-                                "wow. delicate hands"
-                            };
 
-                            newName = eggNames[Random.Range(0, eggNames.Length)];
-                            break;
+                if (currPlate.PlatedItems != null && currPlate.PlatedItems.Length >= 1)
+                {
+                    string n = getProcessedName();
+                    if (n != null)
+                    {
+                        newName = n;
                     }
                 }
 
@@ -157,15 +145,119 @@ public class PlatingStation : MonoBehaviour
         }
     }
 
-    static string getMostCommonItem(Pickup[] items, out int count)
+    string getProcessedName()
     {
-        if(items == null || items.Length == 0)
+        bool isSalad = true;
+        bool isSandwich = false;
+        bool isToast = false;
+
+        Dictionary<string, int> itemCounts = getItemCounts(currPlate.PlatedItems);
+        foreach (string key in itemCounts.Keys)
         {
-            count = 0;
-            return "nothing";
+            int value = itemCounts[key];
+
+            if (key == "knife")
+            {
+                string[] res =
+                {
+                    "that's a knife",
+                    "put that back",
+                    "careful. that's sharp",
+                    "ow!"
+                };
+                return res[Random.Range(0, res.Length)];
+            }
+
+            if (key == "pan")
+            {
+                string[] res =
+                {
+                    "that's a pan",
+                    "put that back",
+                    "careful. that's hot"
+                };
+                return res[Random.Range(0, res.Length)];
+            }
+
+            if (key == "plate")
+            {
+                string[] res =
+                {
+                    "why's there a plate in there",
+                    "don't drop it"
+                };
+                return res[Random.Range(0, res.Length)];
+            }
+
+            if (key == "bread" && value >= 2)
+            {
+                isSandwich = true;
+            }
+
+            if ((key == "bread" || key == "toast") && value > 0)
+            {
+                isSalad = false;
+            }
+
+            if (key == "toast")
+            {
+                isToast = true;
+                isSandwich = (value > 1) ? true : isSandwich;
+            }
         }
 
-        Debug.Log("Got " + items.Length);
+        string dishType = "";
+        string common = getMostCommonItem(currPlate.PlatedItems, out int _);
+
+        if (isSalad)
+        {
+            dishType = "salad";
+        }
+
+        if (isToast)
+        {
+            dishType = "toast";
+        }
+        if (isSandwich)
+        {
+            dishType = "sandwich";
+        }
+        if (isToast && isSandwich)
+        {
+            dishType = "toasted sandwich";
+        }
+
+        int highest = 0;
+        if (isToast || isSandwich)
+        {
+            // get most common, non bread item
+            Pickup p = null;
+            for (int i = 0; i < currPlate.PlatedItems.Length; i++)
+            {
+                string iName = currPlate.PlatedItems[i].ItemName;
+                if ((iName != "bread" && iName != "toast") && itemCounts[iName] > highest)
+                {
+                    p = currPlate.PlatedItems[i];
+                    highest = itemCounts[iName];
+                }
+            }
+
+            common = p == null ? "plain" : p.ItemName;
+        }
+
+        string count = highest <= 0 || highest - 1 >= countNames.Length ? "multiple" : countNames[highest - 1];
+
+        string[] options =
+        {
+            $"{descs[Random.Range(0, descs.Length)]} {common} {dishType}",
+            $"{count} {common} {dishType}"
+        };
+
+        return options[Random.Range(0, options.Length)];
+    }
+
+    static Dictionary<string, int> getItemCounts(Pickup[] items)
+    {
         Dictionary<string, int> itemCount = new Dictionary<string, int>();
         for (int i = 0; i < items.Length; i++)
         {
@@ -179,6 +271,20 @@ public class PlatingStation : MonoBehaviour
                 itemCount.Add(items[i].ItemName, 1);
             }
         }
+
+        return itemCount;
+    }
+
+    static string getMostCommonItem(Pickup[] items, out int count)
+    {
+        if(items == null || items.Length == 0)
+        {
+            count = 0;
+            return "nothing";
+        }
+
+        Debug.Log("Got " + items.Length);
+        Dictionary<string, int> itemCount = getItemCounts(items);
 
         int highest = 0;
         Pickup p = null;

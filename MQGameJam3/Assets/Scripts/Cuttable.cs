@@ -27,7 +27,7 @@ public class Cuttable : MonoBehaviour
             newCut.transform.position = transform.position + (transform.forward * cutDirection);
             newCut.transform.eulerAngles = new Vector3(-60, newCut.transform.eulerAngles.y, newCut.transform.eulerAngles.z);
 
-            cutAmount -= (1 / maxCuts);
+            cutAmount -= (1.0f / maxCuts);
             mr.material.SetFloat("_CutAmount", cutAmount);
 
             currCuts++;

@@ -24,6 +24,7 @@ public class Knife : MonoBehaviour
     private Pickup pickup;
 
     private bool cutting = false;
+    private bool stillCutting = false;
 
     // Start is called before the first frame update
     void Start()
@@ -66,8 +67,13 @@ public class Knife : MonoBehaviour
                             {
                                 targetPos = hit.point - cutPosition;
                                 cutting = true;
+                                stillCutting = true;
                             }
                         }
+                    }
+                    else
+                    {
+                        stillCutting = false;
                     }
                 }
             }
@@ -79,7 +85,15 @@ public class Knife : MonoBehaviour
                 cutting = false;
             }
         }
-        knife.position = Vector3.Lerp(knife.position, targetPos, Time.deltaTime * knifeSpeed);
+        else
+        {
+            stillCutting = false;
+        }
+
+        if (stillCutting)
+        {
+            knife.position = Vector3.Lerp(knife.position, targetPos, Time.deltaTime * knifeSpeed);
+        }
 
         targetRotation = pickup.IsPickedUp ? pickUpRotation : droppedRotation;
         knife.rotation = Quaternion.Lerp(knife.rotation, Quaternion.Euler(targetRotation), Time.deltaTime * rotateSpeed);

@@ -130,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupPoint: {x: 0, y: 0, z: 0}
   setPose: 1
-  itemName: loaf of bread
+  itemName: bread loaf
 --- !u!114 &4087434987895087498
 MonoBehaviour:
   m_ObjectHideFlags: 0
