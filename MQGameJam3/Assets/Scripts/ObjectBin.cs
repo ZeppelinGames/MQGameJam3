@@ -8,13 +8,13 @@ public class ObjectBin : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!HasTag(collision.gameObject))
+        if (!HasTag(collision.gameObject) && collision.transform.TryGetComponent(out Pickup _))
         {
             Destroy(collision.gameObject);
         }
     }
 
-        bool HasTag(GameObject g)
+    bool HasTag(GameObject g)
     {
         for (int i = 0; i < ignoreTags.Length; i++)
         {
